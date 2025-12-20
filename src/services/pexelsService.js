@@ -1,10 +1,39 @@
-import { createClient } from 'pexels';
-
-// Initialize Pexels client with API key from environment
-const client = createClient(import.meta.env.VITE_PEXELS_API_KEY);
+// Initialize API key
+const API_KEY = import.meta.env.VITE_PEXELS_API_KEY;
+const BASE_URL = 'https://api.pexels.com/v1';
 
 // Cache to store fetched images and avoid redundant API calls
 const imageCache = new Map();
+
+/**
+ * Helper to fetch from Pexels API
+ */
+const fetchPexels = async (endpoint, params = {}) => {
+    if (!API_KEY) {
+        console.warn('Pexels API Key is missing');
+        return null;
+    }
+
+    const url = new URL(`${BASE_URL}${endpoint}`);
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+
+    try {
+        const response = await fetch(url, {
+            headers: {
+                'Authorization': API_KEY
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error(`Pexels API Error: ${response.statusText}`);
+        }
+        
+        return await response.json();
+    } catch (error) {
+        console.error('Pexels request failed:', error);
+        throw error;
+    }
+};
 
 /**
  * Search for destination images on Pexels
@@ -22,14 +51,14 @@ export const searchDestinationImages = async (destination, count = 4) => {
     try {
         // Search for images related to the destination
         const query = `${destination} travel landmark cityscape`;
-        const response = await client.photos.search({ 
-            query, 
+        const data = await fetchPexels('/search', {
+            query,
             per_page: count,
-            orientation: 'landscape' 
+            orientation: 'landscape'
         });
 
-        if (response.photos && response.photos.length > 0) {
-            const images = response.photos.map(photo => ({
+        if (data && data.photos && data.photos.length > 0) {
+            const images = data.photos.map(photo => ({
                 id: photo.id,
                 src: photo.src.large2x, // High quality image
                 srcMedium: photo.src.large, // Medium quality for mobile
@@ -90,16 +119,16 @@ export const searchDayImage = async (destination, dayNumber = 1, searchQuery = n
         }
 
         // Fetch high-quality images
-        const response = await client.photos.search({ 
-            query, 
+        const data = await fetchPexels('/search', {
+            query,
             per_page: 10,
             orientation: 'landscape'
         });
 
-        if (response.photos && response.photos.length > 0) {
+        if (data && data.photos && data.photos.length > 0) {
             // Use first result for Gemini queries (most relevant), or rotate for fallback
-            const photoIndex = searchQuery ? 0 : ((dayNumber - 1) % response.photos.length);
-            const photo = response.photos[photoIndex];
+            const photoIndex = searchQuery ? 0 : ((dayNumber - 1) % data.photos.length);
+            const photo = data.photos[photoIndex];
             
             const image = {
                 id: photo.id,
