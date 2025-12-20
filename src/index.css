@@ -1,0 +1,151 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+
+  /* Component Classes - iOS Inspired */
+  .ios-card {
+    @apply bg-ios-card/80 backdrop-blur-xl border border-white/5 rounded-[22px] shadow-ios-soft;
+  }
+
+  .ios-glass-card {
+    @apply bg-ios-glass backdrop-blur-[20px] border border-white/10 rounded-[22px] shadow-ios-glass;
+  }
+
+  .ios-input {
+    @apply w-full bg-ios-elevated/50 text-white rounded-[10px] px-3 py-2.5 outline-none focus:ring-2 focus:ring-ios-blue/50 transition-all font-sans text-[17px] placeholder-ios-label-tertiary;
+  }
+
+  .ios-btn-primary {
+    @apply bg-ios-blue text-white font-semibold rounded-full px-6 py-3 hover:opacity-90 active:scale-95 transition-all shadow-lg shadow-blue-500/30 text-[17px] tracking-tight;
+  }
+
+  .ios-btn-secondary {
+    @apply bg-ios-elevated/80 text-ios-blue font-semibold rounded-full px-6 py-3 hover:bg-ios-elevated active:scale-95 transition-all border border-ios-blue/10 backdrop-blur-md text-[17px] tracking-tight;
+  }
+
+  /* Typography */
+  .ios-section-header {
+    @apply text-[22px] font-bold text-white tracking-tight mb-4;
+  }
+
+  .ios-label {
+    @apply text-[13px] font-medium text-ios-label-secondary uppercase tracking-wide;
+  }
+
+}
+
+body {
+  @apply bg-ios-bg text-ios-label min-h-screen text-[17px] antialiased selection:bg-ios-blue/30 selection:text-white;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* iOS Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-ios-separator rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-ios-gray;
+}
+
+/* Custom Range Input Styling (Minimal & High Contrast) */
+input[type=range] {
+  @apply appearance-none bg-transparent cursor-pointer w-full focus:outline-none;
+}
+
+/* Track */
+input[type=range]::-webkit-slider-runnable-track {
+  @apply h-1.5 rounded-full bg-ios-elevated shadow-inner border border-white/10;
+}
+
+/* Thumb */
+input[type=range]::-webkit-slider-thumb {
+  @apply appearance-none h-5 w-5 rounded-full bg-white border-2 border-ios-card transition-all hover:scale-110 active:scale-95;
+  margin-top: -7px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+input[type=range]:focus::-webkit-slider-thumb {
+  @apply ring-4 ring-ios-blue/30 border-white;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes gradient-shift {
+  0% {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  25% {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  }
+
+  50% {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  }
+
+  75% {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  }
+
+  100% {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+.animate-gradient-shift {
+  animation: gradient-shift 15s ease infinite;
+}
