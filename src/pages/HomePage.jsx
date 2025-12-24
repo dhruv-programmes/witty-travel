@@ -311,7 +311,7 @@ const HomePage = () => {
 
                         {/* GitHub Link */}
                         <a 
-                            href="https://github.com/dhruvpadhiyar"
+                            href="https://github.com/dhruv-programmes/witty-travel"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="group flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-2xl px-6 py-3 transition-all"
